@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from sys import argv
 from processo import Process
 from escalonador import Scheduler
@@ -32,15 +33,33 @@ def readArq (filename):
 
       dados.append(processo)
 
-  return dados ## retorna dict com :
-  """ {
-        'id': int
-        'tamanho': int
-        'prioridade': int
-        'tempoChegada': int
-        'I_O': [int, int, ... , int]
-      }
-  """
+  return dados ## retorna [dict] com :
+  # [{
+  #   'id': int
+  #   'tamanho': int
+  #   'prioridade': int
+  #   'tempoChegada': int
+  #   'I_O': [int, int, ... , int]
+  # }]
 
 if __name__ == "__main__":
-  print(readArq(argv[1]))
+
+  if len(argv) > 1:
+    dados = readArq(argv[1])
+    processos = []
+    for dado in dados:
+      processos.append(Process(dado))
+
+    print("\n\t\t\t\tProcesso em espera: \'_\' ")
+    print("\t\t\t\tProcesso em execução: \'x\'")
+    print("\t\t\t\tProcesso bloqueado: \'*\'")
+    print("\t\t\t\tProcesso terminado: \'·\'\n")
+    sche = Scheduler(processos)
+    # sche.FirstComeFirstServed()
+    sche.FirstComeFirstServed()
+    sche.ShortestJobFirst()
+
+
+    # perguntar ao professor sobre o trabalho
+    # file, io, bloqueio
+    
