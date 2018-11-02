@@ -42,24 +42,70 @@ def readArq (filename):
   #   'I_O': [int, int, ... , int]
   # }]
 
+fileError = "./main.py ... -f [[Arquivo]] ... "
+quantumError = "./main.py ... -q [[Quantum(integer)]] ... "
+blockTimeError = "./main.py ... -b [[Tempo de Bloqueio para IO (integer)]] ... "
+
 if __name__ == "__main__":
 
+  quantum = 4
+  blockTime = 2
+  dados = []
+
+  fileVerify = False
+  quantumVerify = False
+  blockTimeVerify = False
+
   if len(argv) > 1:
-    dados = readArq(argv[1])
-    processos = []
-    for dado in dados:
-      processos.append(Process(dado))
+    for (i, args) in enumerate(argv):
+      if args == '-f' and not fileVerify:
+        try:
+          if argv[i+1][0] == '-':
+            print(fileError)
+            exit(0)
+          file = argv[i+1]
+        except:
+          print("erro no parâmetro do arquivo\n\t", fileError)
+          exit(0)
 
-    print("\n\t\t\t\tProcesso em espera: \'_\' ")
-    print("\t\t\t\tProcesso em execução: \'x\'")
-    print("\t\t\t\tProcesso bloqueado: \'*\'")
-    print("\t\t\t\tProcesso terminado: \'·\'\n")
-    sche = Scheduler(processos)
-    # sche.FirstComeFirstServed()
-    sche.FirstComeFirstServed()
-    sche.ShortestJobFirst()
+        dados = readArq(file)
+        fileVerify = True
+      elif args == '-q' and not quantumVerify:
+        try:
+          if argv[i+1][0] == '-':
+            print(quantumError)
+            exit(0)
+          quantum = int(argv[i+1])
+        except:
+          print("erro no parâmetro do quantum\n\t", quantumError)  
+          exit(0)
+        quantumVerify = True
+      elif args == '-b' and not blockTimeVerify:
+        try:
+          if argv[i+1][0] == '-':
+            print(blockTimeError)
+            exit(0)
+          blockTime = int(argv[i+1])
+        except:
+          print("erro no parâmetro do tempo de bloqueio\n\t", blockTimeError)
+          exit(0)
 
+        blockTimeVerify = True
 
-    # perguntar ao professor sobre o trabalho
-    # file, io, bloqueio
-    
+  if '-f' not in argv:
+    print("Uma arquivo de configuração deve ser informado:\n\t ./main.py ... -f [[Arquivo]] ... ")
+    exit(0)
+  processos = []
+  for dado in dados:
+    processos.append(Process(dado))
+
+  print("\n\t\t\t\tProcesso em espera: \'_\' ")
+  print("\t\t\t\tProcesso em execução: \'x\'")
+  print("\t\t\t\tProcesso bloqueado: \'*\'")
+  print("\t\t\t\tProcesso terminado: \'·\'\n")
+  sche = Scheduler(processos, blockTime)
+
+  sche.FirstComeFirstServed()
+  sche.ShortestJobFirst()
+  # sche.RoundRobin(quantum)
+  # sche.Priority()
