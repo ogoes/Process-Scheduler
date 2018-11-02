@@ -1,0 +1,4 @@
+# ID – DF – PRI – TC – FIO
+0 10 4 0 3 5 7 # Processo Id: 0, Tamanho: 10ns, Prioridade: 4, Tempo de Chegada: 0 e Eventos de I/O: 3, 5 e 7.
+1 5 2 1 # Processo Id: 1, …, Nenhum evento de I/O.
+2 2 1 4 1
