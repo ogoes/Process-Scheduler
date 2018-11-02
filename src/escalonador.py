@@ -4,8 +4,13 @@ from ordenacoes import *
 
 
 class Scheduler:
-  def __init__ (self, processos):
+  def __init__ (self, processos, blockTime):
+    self.__blockTime = blockTime
     self.__processos = processos
+    self.__maxFilaEspera = 0
+    self.__maxFilaBloqueado = 0
+    self.__medFilaEspera = 0
+    self.__medFilaBloqueado = 0
   def initValues (self):
     for process in self.__processos:
       process.init()
@@ -28,6 +33,10 @@ class Scheduler:
     print('%s =' %(string), soma, 't')
     print('\t\tTempo Médio de Espera (TME): ', end='')
     print('(%s)/%i = %f' %(string, len(self.__processos), soma/len(self.__processos)), 't\n')
+
+    print('\t\tTamanho máximo da fila de Espera (Apto/Pronto): %i'%(self.__maxFilaEspera))
+    print('\t\tTamanho máximo da fila de Bloqueio (Suspenso): %i'%(self.__maxFilaBloqueado))
+    print("")
   def FirstComeFirstServed (self):
     self.initValues()
     filaEspera = [process for process in self.__processos if process.getBegin() == 0]
@@ -37,9 +46,12 @@ class Scheduler:
 
     count = 0
     while len(filaTerminado) < len(self.__processos):
-
+      if len(filaEspera) > self.__maxFilaEspera:
+        self.__maxFilaEspera = len(filaEspera)
+      if len(filaBloqueado) > self.__maxFilaBloqueado:
+        self.__maxFilaBloqueado = len(filaBloqueado)
       while len (filaEspera) == 0:
-        self.verifica(filaBloqueado, filaEspera)
+        self.__verifica__(filaBloqueado, filaEspera)
         count += 1
       
       process = filaEspera.pop(0)
@@ -52,7 +64,7 @@ class Scheduler:
         if process.isBlocked():
           filaBloqueado.append(process)
 
-        self.verifica(filaBloqueado, filaEspera, process)
+        self.__verifica__(filaBloqueado, filaEspera, process)
 
         count += 1
         filaEspera += [process for process in self.__processos if process.getBegin() == count]
@@ -67,34 +79,33 @@ class Scheduler:
     self.initValues()
 
     filaEspera = [process for process in self.__processos if process.getBegin() == 0]
-    # filaBloqueado = []
+    filaBloqueado = []
     filaTerminado = []
 
     count = 0
     while len(filaTerminado) < len(self.__processos):
+      while len (filaEspera) == 0:
+        self.__verifica__(filaBloqueado, filaEspera)
+        count += 1
+      
       ordenaTamanho(filaEspera)
 
       process = filaEspera.pop(0)
       process.setInicio(count)
-      while not process.isFinished():
+      while not process.isFinished() and not process.isBlocked():
                   
         process.executa()
-        process.appen('x')
-
-        for pros in self.__processos:
-          if pros != process:
-            if pros.isFinished():
-              pros.appen('·')
-            elif count >= pros.getBegin():
-              pros.appen('_')
-            else:
-              pros.appen(' ')
+        if process.isBlocked():
+          filaBloqueado.append(process)
+          
+        self.__verifica__(filaBloqueado, filaEspera, process)
 
         count += 1
         filaEspera += [process for process in self.__processos if process.getBegin() == count]
 
-      process.setFim(count)
-      filaTerminado.append(process)
+      if process.isFinished():
+        process.setFim(count)
+        filaTerminado.append(process)
 
 
     print("Shortest Job First --> SJF\n")
@@ -106,7 +117,7 @@ class Scheduler:
     pass
   def Priority (self):
     pass
-  def verifica (self, filaBloqueado, filaEspera, processo=None):
+  def __verifica__ (self, filaBloqueado, filaEspera, processo=None):
     if processo != None:
       for pros in self.__processos:
         if pros != processo:
@@ -115,7 +126,7 @@ class Scheduler:
           elif pros in filaEspera:
             pros.appen('_')
           elif pros.isBlocked():
-            if pros.bloqueio() % 2 == 0:
+            if pros.bloqueio() % self.__blockTime == 0:
               pros.unblock()
               filaEspera.append(pros)
               filaBloqueado.pop(filaBloqueado.index(pros))
@@ -131,7 +142,7 @@ class Scheduler:
         elif pros in filaEspera:
           pros.appen('_')
         elif pros.isBlocked():
-          if pros.bloqueio() % 2 == 0:
+          if pros.bloqueio() % self.__blockTime == 0:
             pros.unblock()
             filaEspera.append(pros)
             filaBloqueado.pop(filaBloqueado.index(pros))
