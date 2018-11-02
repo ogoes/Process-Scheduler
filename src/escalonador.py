@@ -52,8 +52,7 @@ class Scheduler:
         if process.isBlocked():
           filaBloqueado.append(process)
 
-        for pros in self.__processos:
-          self.verifica(filaBloqueado, filaEspera, process, pros)
+        self.verifica(filaBloqueado, filaEspera, process)
 
         count += 1
         filaEspera += [process for process in self.__processos if process.getBegin() == count]
@@ -107,23 +106,24 @@ class Scheduler:
     pass
   def Priority (self):
     pass
-  def verifica (self, filaBloqueado, filaEspera, processo=None, compare=None):
-    if processo != None and compare != None:
-      if compare != processo:
-        if compare.isFinished():
-          compare.appen('·')
-        elif compare in filaEspera:
-          compare.appen('_')
-        elif compare.isBlocked():
-          if compare.bloqueio() % 2 == 0:
-            compare.unblock()
-            filaEspera.append(compare)
-            filaBloqueado.pop(filaBloqueado.index(compare))
-          compare.appen('*')
+  def verifica (self, filaBloqueado, filaEspera, processo=None):
+    if processo != None:
+      for pros in self.__processos:
+        if pros != processo:
+          if pros.isFinished():
+            pros.appen('·')
+          elif pros in filaEspera:
+            pros.appen('_')
+          elif pros.isBlocked():
+            if pros.bloqueio() % 2 == 0:
+              pros.unblock()
+              filaEspera.append(pros)
+              filaBloqueado.pop(filaBloqueado.index(pros))
+            pros.appen('*')
+          else:
+            pros.appen(' ')
         else:
-          compare.appen(' ')
-      else:
-        compare.appen('x')
+            pros.appen('x')
     else:
       for pros in self.__processos:
         if pros.isFinished():
