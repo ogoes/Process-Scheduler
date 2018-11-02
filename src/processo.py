@@ -16,12 +16,11 @@ class Process:
     self.__tempoFim = 0
     self.__tempoEspera = random.choice([1, 2])
     self.__isFinished = False
+    self.__isBlocked = False
     self.__string = ''
   def getEspera (self):
     self.__tempoEspera = self.__tempoFim - self.__tempoChegada - self.__tempoExecutado - self.__tempoBloqueado
     return self.__tempoEspera
-  def getTempoBloquado (self):
-    return self.__tempoBloqueado
   def getBegin (self):
     return self.__tempoChegada
   def getPriori (self):
@@ -35,7 +34,10 @@ class Process:
   def getInicio (self):
     return self.__tempoInicio
   def bloqueio (self):
-    self.__tempoBloqueado -= 1
+    self.__tempoBloqueado += 1
+    return self.__tempoBloqueado
+  def unblock (self):
+    self.__isBlocked = False
   def setInicio (self, inicio):
     self.__tempoInicio = inicio
   def setFim (self, fim):
@@ -44,8 +46,13 @@ class Process:
     return self.__isFinished
   def appen (self, dado):
     self.__string += dado
+  def isBlocked (self):
+    return self.__isBlocked
   def executa (self):
     self.__tempoExecutado += 1
+
+    if self.__tempoExecutado in self.__inOut:
+      self.__isBlocked = True
 
     if self.__tempoExecutado == self.__tamanho:
       self.__isFinished = True

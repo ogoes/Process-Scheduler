@@ -1,4 +1,8 @@
 from ordenacoes import *
+
+
+
+
 class Scheduler:
   def __init__ (self, processos):
     self.__processos = processos
@@ -27,35 +31,36 @@ class Scheduler:
   def FirstComeFirstServed (self):
     self.initValues()
     filaEspera = [process for process in self.__processos if process.getBegin() == 0]
-    # filaBloqueado = []
+    filaBloqueado = []
     filaTerminado = []
 
 
     count = 0
     while len(filaTerminado) < len(self.__processos):
-      ordenaTempoChegada(filaEspera)
 
+      while len (filaEspera) == 0:
+        self.verifica(filaBloqueado, filaEspera)
+        count += 1
+      
       process = filaEspera.pop(0)
-      process.setInicio(count)
-      while not process.isFinished():
+      if process.getTempoExecutado == 0:
+        process.setInicio(count)
+      while not process.isFinished() and not process.isBlocked():
                   
         process.executa()
-        process.appen('x')
+
+        if process.isBlocked():
+          filaBloqueado.append(process)
 
         for pros in self.__processos:
-          if pros != process:
-            if pros.isFinished():
-              pros.appen('·')
-            elif pros in filaEspera:
-              pros.appen('_')
-            else:
-              pros.appen(' ')
+          self.verifica(filaBloqueado, filaEspera, process, pros)
 
         count += 1
         filaEspera += [process for process in self.__processos if process.getBegin() == count]
 
-      process.setFim(count)
-      filaTerminado.append(process)
+      if process.isFinished():
+        process.setFim(count)
+        filaTerminado.append(process)
 
     print("First Come, First Served --> FCFS\n")
     self.mostraResultados()
@@ -102,3 +107,36 @@ class Scheduler:
     pass
   def Priority (self):
     pass
+  def verifica (self, filaBloqueado, filaEspera, processo=None, compare=None):
+    if processo != None and compare != None:
+      if compare != processo:
+        if compare.isFinished():
+          compare.appen('·')
+        elif compare in filaEspera:
+          compare.appen('_')
+        elif compare.isBlocked():
+          if compare.bloqueio() % 2 == 0:
+            compare.unblock()
+            filaEspera.append(compare)
+            filaBloqueado.pop(filaBloqueado.index(compare))
+          compare.appen('*')
+        else:
+          compare.appen(' ')
+      else:
+        compare.appen('x')
+    else:
+      for pros in self.__processos:
+        if pros.isFinished():
+          pros.appen('·')
+        elif pros in filaEspera:
+          pros.appen('_')
+        elif pros.isBlocked():
+          if pros.bloqueio() % 2 == 0:
+            pros.unblock()
+            filaEspera.append(pros)
+            filaBloqueado.pop(filaBloqueado.index(pros))
+          pros.appen('*')
+        elif pros.getTempoExecutado() < pros.getTamanho():
+          pros.appen('x')
+        else:
+          pros.appen(' ')
