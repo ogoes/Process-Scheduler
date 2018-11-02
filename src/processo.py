@@ -1,5 +1,3 @@
-import random
-
 class Process:
   def __init__ (self, dados):
     self.__id = dados['id']
@@ -14,9 +12,10 @@ class Process:
     self.__tempoBloqueado = 0
     self.__tempoInicio = 0
     self.__tempoFim = 0
-    self.__tempoEspera = random.choice([1, 2])
+    self.__tempoEspera = 0
     self.__isFinished = False
     self.__isBlocked = False
+    self.__tempoEmExecucao = 0
     self.__string = ''
   def getEspera (self):
     self.__tempoEspera = self.__tempoFim - self.__tempoChegada - self.__tempoExecutado - self.__tempoBloqueado
@@ -48,8 +47,13 @@ class Process:
     self.__string += dado
   def isBlocked (self):
     return self.__isBlocked
+  def getTempoEmExecucao (self):
+    return self.__tempoEmExecucao
+  def setTempoEmExecucao (self):
+    self.__tempoEmExecucao = 0
   def executa (self):
     self.__tempoExecutado += 1
+    self.__tempoEmExecucao += 1
 
     if self.__tempoExecutado in self.__inOut:
       self.__isBlocked = True

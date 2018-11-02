@@ -42,9 +42,9 @@ def readArq (filename):
   #   'I_O': [int, int, ... , int]
   # }]
 
-fileError = "./main.py ... -f [[Arquivo]] ... "
-quantumError = "./main.py ... -q [[Quantum(integer)]] ... "
-blockTimeError = "./main.py ... -b [[Tempo de Bloqueio para IO (integer)]] ... "
+fileError = "src/main.py ... -f [[Arquivo]] ... "
+quantumError = "src/main.py ... -q [[Quantum(integer)]] ... "
+blockTimeError = "src/main.py ... -b [[Tempo de Bloqueio para IO (integer)]] ... "
 
 if __name__ == "__main__":
 
@@ -107,5 +107,5 @@ if __name__ == "__main__":
 
   sche.FirstComeFirstServed()
   sche.ShortestJobFirst()
-  # sche.RoundRobin(quantum)
+  sche.RoundRobin(quantum)
   # sche.Priority()
