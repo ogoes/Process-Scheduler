@@ -188,7 +188,56 @@ class Scheduler:
       self.mostraResultados()
 
   def Priority (self):
-    pass
+    self.initValues()
+    filaEspera = [process for process in self.__processos if process.getBegin() == 0]
+    filaBloqueado = []
+    filaTerminado = []
+
+
+    while len(filaTerminado) < len(self.__processos):
+      
+      while len (filaEspera) == 0:
+        self.__verifica__(filaBloqueado, filaEspera)
+        self.__medFilaBloqueado += len(filaBloqueado)
+        self.__clock += 1
+
+      ordenaPrioridade(filaEspera)
+
+      process = filaEspera.pop(0)
+      if process.getTempoExecutado() == 0:
+        process.setInicio(self.__clock)
+
+      while not process.isFinished() and not process.isBlocked():
+        
+        if len(filaEspera) > self.__maxFilaEspera:
+          self.__maxFilaEspera = len(filaEspera)
+        if len(filaBloqueado) > self.__maxFilaBloqueado:
+          self.__maxFilaBloqueado = len(filaBloqueado)
+
+        self.__medFilaBloqueado += len(filaBloqueado)
+        self.__medFilaEspera += len(filaEspera)
+
+        process.executa()
+
+        if process.isBlocked():
+          filaBloqueado.append(process)
+        self.__verifica__(filaBloqueado, filaEspera, process)
+        
+        for pros in filaEspera:
+          if pros.getPriori() < process.getPriori():
+            break
+        
+        
+        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
+
+        self.__clock += 1
+
+      if process.isFinished():
+        process.setFim(self.__clock)
+        filaTerminado.append(process)
+
+    print("Prioridade --> P\n")
+    self.mostraResultados()
   def __verifica__ (self, filaBloqueado, filaEspera, processo=None, quantum=None):
     if processo != None:
       for pros in self.__processos:
