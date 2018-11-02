@@ -200,41 +200,36 @@ class Scheduler:
         self.__verifica__(filaBloqueado, filaEspera)
         self.__medFilaBloqueado += len(filaBloqueado)
         self.__clock += 1
-
+      
       ordenaPrioridade(filaEspera)
-
       process = filaEspera.pop(0)
       if process.getTempoExecutado() == 0:
         process.setInicio(self.__clock)
+      # while not process.isFinished() and not process.isBlocked():
 
-      while not process.isFinished() and not process.isBlocked():
-        
-        if len(filaEspera) > self.__maxFilaEspera:
-          self.__maxFilaEspera = len(filaEspera)
-        if len(filaBloqueado) > self.__maxFilaBloqueado:
-          self.__maxFilaBloqueado = len(filaBloqueado)
+      if len(filaEspera) > self.__maxFilaEspera:
+        self.__maxFilaEspera = len(filaEspera)
+      if len(filaBloqueado) > self.__maxFilaBloqueado:
+        self.__maxFilaBloqueado = len(filaBloqueado)
 
-        self.__medFilaBloqueado += len(filaBloqueado)
-        self.__medFilaEspera += len(filaEspera)
+      self.__medFilaBloqueado += len(filaBloqueado)
+      self.__medFilaEspera += len(filaEspera)
+      
+      process.executa()
 
-        process.executa()
+      if process.isBlocked():
+        filaBloqueado.append(process)
 
-        if process.isBlocked():
-          filaBloqueado.append(process)
-        self.__verifica__(filaBloqueado, filaEspera, process)
-        
-        for pros in filaEspera:
-          if pros.getPriori() < process.getPriori():
-            break
-        
-        
-        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
+      self.__verifica__(filaBloqueado, filaEspera, process)
 
-        self.__clock += 1
+      self.__clock += 1
+      filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
       if process.isFinished():
         process.setFim(self.__clock)
         filaTerminado.append(process)
+      elif not process.isBlocked():
+        filaEspera.append(process)
 
     print("Prioridade --> P\n")
     self.mostraResultados()

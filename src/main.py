@@ -108,4 +108,4 @@ if __name__ == "__main__":
   sche.FirstComeFirstServed()
   sche.ShortestJobFirst()
   sche.RoundRobin(quantum)
-  # sche.Priority()
+  sche.Priority()

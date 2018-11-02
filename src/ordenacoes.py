@@ -9,18 +9,6 @@ def ordenaId (processos):
 
   return processos
 
-def ordenaTempoChegada (processos):
-  
-  for i in range( len(processos)-1 ):
-    j = i + 1
-    while j > 0 and processos[j].getBegin() < processos[j-1].getBegin():
-      aux = processos[j]
-      processos[j] = processos[j-1]
-      processos[j-1] = aux
-      j -= 1
-
-  return processos
-
 def ordenaPrioridade (processos):
   for i in range( len(processos)-1 ):
     j = i + 1
