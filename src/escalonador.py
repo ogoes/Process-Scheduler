@@ -17,6 +17,7 @@ class Scheduler:
     self.__medFilaEspera = 0
     self.__medFilaBloqueado = 0
     self.__clock = 0
+    self.__tempoOcioso = 0
 
   def mostraResultados (self):
     ordenaId(self.__processos)
@@ -33,15 +34,15 @@ class Scheduler:
         string += ' + '
       soma += (p.getEspera())
 
-    print('%s =' %(string), soma, 't')
+    print('%s = %it' %(string, soma))
     print('\t\tTempo Médio de Espera (TME): ', end='')
-    print('(%s)/%i = %f' %(string, len(self.__processos), soma/len(self.__processos)), 't')
+    print('(%s)/%i = %ft' %(string, len(self.__processos), soma/len(self.__processos)))
 
     print('\t\tTamanho máximo da fila de Espera (Apto/Pronto): %i'%(self.__maxFilaEspera))
     print("\t\tTamanho médio da fila de Espera (Apto/Pronto): %f" %(self.__medFilaEspera/self.__clock))
     print('\t\tTamanho máximo da fila de Bloqueio (Suspenso): %i'%(self.__maxFilaBloqueado))
     print('\t\tTamanho médio da fila de Bloqueio (Suspenso): %f' %(self.__medFilaBloqueado/self.__clock))
-    print("")
+    print("\t\tTempo de ociosidade da CPU: %it" %(self.__tempoOcioso))
   def FirstComeFirstServed (self):
     self.initValues()
     filaEspera = [process for process in self.__processos if process.getBegin() == 0]
@@ -54,6 +55,7 @@ class Scheduler:
       while len (filaEspera) == 0:
         self.__verifica__(filaBloqueado, filaEspera)
         self.__medFilaBloqueado += len(filaBloqueado)
+        self.__tempoOcioso += 1
         self.__clock += 1
       
       process = filaEspera.pop(0)
@@ -97,10 +99,10 @@ class Scheduler:
       while len (filaEspera) == 0:
         self.__verifica__(filaBloqueado, filaEspera)
         self.__medFilaBloqueado += len(filaBloqueado)
+        self.__tempoOcioso += 1
         self.__clock += 1
       
-      ordenaTamanho(filaEspera)
-      
+      ordenaMenorPicoCPU(filaEspera)
 
       process = filaEspera.pop(0)
       if process.getTempoExecutado() == 0:
@@ -148,6 +150,7 @@ class Scheduler:
         while len(filaEspera) == 0:
           self.__verifica__(filaBloqueado, filaEspera)
           self.__medFilaBloqueado += len(filaBloqueado)
+          self.__tempoOcioso += 1
           self.__clock += 1
 
         process = filaEspera.pop(0)
@@ -186,7 +189,6 @@ class Scheduler:
 
       print("Round Robin --> RR\n")
       self.mostraResultados()
-
   def Priority (self):
     self.initValues()
     filaEspera = [process for process in self.__processos if process.getBegin() == 0]
@@ -199,6 +201,7 @@ class Scheduler:
       while len (filaEspera) == 0:
         self.__verifica__(filaBloqueado, filaEspera)
         self.__medFilaBloqueado += len(filaBloqueado)
+        self.__tempoOcioso += 1
         self.__clock += 1
       
       ordenaPrioridade(filaEspera)

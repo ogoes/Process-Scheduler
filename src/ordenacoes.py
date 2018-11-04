@@ -29,4 +29,14 @@ def ordenaTamanho (processos):
       processos[j-1] = aux
       j -= 1
   return processos
+
+def ordenaMenorPicoCPU (processos):
+  for i in range( len(processos)-1 ):
+    j = i + 1
+    while j > 0 and processos[j].getPicoCPU() < processos[j-1].getPicoCPU():
+      aux = processos[j]
+      processos[j] = processos[j-1]
+      processos[j-1] = aux
+      j -= 1
+  return processos
   

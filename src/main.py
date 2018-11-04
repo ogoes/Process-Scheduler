@@ -48,8 +48,8 @@ blockTimeError = "src/main.py ... -b [[Tempo de Bloqueio para IO (integer)]] ...
 
 if __name__ == "__main__":
 
-  quantum = 4
-  blockTime = 2
+  quantum = 1
+  blockTime = 1
   dados = []
 
   fileVerify = False
@@ -103,9 +103,11 @@ if __name__ == "__main__":
   print("\t\t\t\tProcesso em execução: \'x\'")
   print("\t\t\t\tProcesso bloqueado: \'*\'")
   print("\t\t\t\tProcesso terminado: \'·\'\n")
+  if blockTime <= 0:
+    blockTime = 1
   sche = Scheduler(processos, blockTime)
 
-  sche.FirstComeFirstServed()
+  # sche.FirstComeFirstServed()
   sche.ShortestJobFirst()
-  sche.RoundRobin(quantum)
-  sche.Priority()
+  # sche.RoundRobin(quantum)
+  # sche.Priority()

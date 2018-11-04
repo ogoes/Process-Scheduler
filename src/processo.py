@@ -5,7 +5,6 @@ class Process:
     self.__prioridade = dados['prioridade']
     self.__tempoChegada = dados['tempoChegada']
     self.__inOut = dados['I_O']
-
     self.init()
   def init (self):
     self.__tempoExecutado = 0
@@ -16,6 +15,7 @@ class Process:
     self.__isFinished = False
     self.__isBlocked = False
     self.__tempoEmExecucao = 0
+    self.__picoIndex = 0
     self.__string = ''
   def getEspera (self):
     self.__tempoEspera = self.__tempoFim - self.__tempoChegada - self.__tempoExecutado - self.__tempoBloqueado
@@ -32,6 +32,14 @@ class Process:
     return self.__tempoExecutado
   def getInicio (self):
     return self.__tempoInicio
+  def getPicoCPU (self):
+    tempo = self.__tamanho - self.__tempoExecutado
+
+    for i in self.__inOut:
+      if i > self.__tempoExecutado:
+        tempo = i - self.__tempoExecutado
+        break
+    return tempo
   def bloqueio (self):
     self.__tempoBloqueado += 1
     return self.__tempoBloqueado
@@ -62,5 +70,5 @@ class Process:
       self.__isFinished = True
   def printa (self):
     self.__string += '|'
-    print("\tProcesso[%s] |%s -> ini = %i, fim = %i" %(self.__id, self.__string, self.__tempoInicio, self.__tempoFim))
+    print("\tProcesso[%s] |%s" %(self.__id, self.__string))
     # print(self.__dados)
