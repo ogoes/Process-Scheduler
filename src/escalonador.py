@@ -57,6 +57,7 @@ class Scheduler:
         self.__medFilaBloqueado += len(filaBloqueado)
         self.__tempoOcioso += 1
         self.__clock += 1
+        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
       
       process = filaEspera.pop(0)
       if process.getTempoExecutado() == 0:
@@ -101,6 +102,7 @@ class Scheduler:
         self.__medFilaBloqueado += len(filaBloqueado)
         self.__tempoOcioso += 1
         self.__clock += 1
+        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
       
       ordenaMenorPicoCPU(filaEspera)
 
@@ -152,6 +154,8 @@ class Scheduler:
           self.__medFilaBloqueado += len(filaBloqueado)
           self.__tempoOcioso += 1
           self.__clock += 1
+          filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
+
 
         process = filaEspera.pop(0)
         process.setTempoEmExecucao()
@@ -203,12 +207,14 @@ class Scheduler:
         self.__medFilaBloqueado += len(filaBloqueado)
         self.__tempoOcioso += 1
         self.__clock += 1
+        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
+
       
       ordenaPrioridade(filaEspera)
       process = filaEspera.pop(0)
       if process.getTempoExecutado() == 0:
         process.setInicio(self.__clock)
-      # while not process.isFinished() and not process.isBlocked():
+
 
       if len(filaEspera) > self.__maxFilaEspera:
         self.__maxFilaEspera = len(filaEspera)
@@ -232,7 +238,7 @@ class Scheduler:
         process.setFim(self.__clock)
         filaTerminado.append(process)
       elif not process.isBlocked():
-        filaEspera.append(process)
+        filaEspera.insert(0, process)
 
     print("Prioridade --> P\n")
     self.mostraResultados()

@@ -107,7 +107,7 @@ if __name__ == "__main__":
     blockTime = 1
   sche = Scheduler(processos, blockTime)
 
-  # sche.FirstComeFirstServed()
+  sche.FirstComeFirstServed()
   sche.ShortestJobFirst()
-  # sche.RoundRobin(quantum)
-  # sche.Priority()
+  sche.RoundRobin(quantum)
+  sche.Priority()
