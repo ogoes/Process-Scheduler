@@ -4,6 +4,7 @@ from ordenacoes import *
 
 
 class Scheduler:
+  """udhasduashdusahdashu"""
   def __init__ (self, processos, blockTime):
     self.__blockTime = blockTime
     self.__processos = processos
@@ -78,9 +79,9 @@ class Scheduler:
           filaBloqueado.append(process)
 
         self.__verifica__(filaBloqueado, filaEspera, process)
+        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
         self.__clock += 1
-        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
       if process.isFinished():
         process.setFim(self.__clock)
@@ -125,9 +126,9 @@ class Scheduler:
           filaBloqueado.append(process)
 
         self.__verifica__(filaBloqueado, filaEspera, process)
+        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
         self.__clock += 1
-        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
       if process.isFinished():
         process.setFim(self.__clock)
@@ -183,9 +184,9 @@ class Scheduler:
 
 
           self.__verifica__(filaBloqueado, filaEspera, process)
+          filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
           self.__clock += 1
-          filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
         if process.isFinished():
           process.setFim(self.__clock)
@@ -230,9 +231,9 @@ class Scheduler:
         filaBloqueado.append(process)
 
       self.__verifica__(filaBloqueado, filaEspera, process)
+      filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
       self.__clock += 1
-      filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
       if process.isFinished():
         process.setFim(self.__clock)
