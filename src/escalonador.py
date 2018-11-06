@@ -2,6 +2,7 @@ class Scheduler:
   """ Classe para o escalonador de processos."""
   def __init__ (self, processos, blockTime):  
     """ Description
+    Método construtor da classe Scheduler
     :type self: Scheduler (class)
 
     :type processos: list
@@ -10,13 +11,14 @@ class Scheduler:
     :type blockTime: int
     :param blockTime: Tempo de bloqueio para o processo quando ocorre evento de E/S
 
-    :rtype:
+    :rtype: None
     """
     self.__blockTime = blockTime
     self.__processos = processos
+    return None
     
   def initValues (self):
-    """ Método que faz inicialização das variáveis dos processos"""
+    """ Método que faz inicialização das variáveis dos processos e do escalonador """
     for process in self.__processos:
       process.init()
 
@@ -28,7 +30,7 @@ class Scheduler:
 
     ## variavel responsavel por representar o tempo no algoritmo
     self.__clock = 0
-    ## tempo ocioso do processador, caso não haja processos executanto ou na fila de espera (aptos)
+    ## tempo ocioso do processador, caso não haja processos executando ou na fila de espera (aptos)
     self.__tempoOcioso = 0
 
   def mostraResultados (self):
@@ -133,6 +135,7 @@ class Scheduler:
   
   def ShortestJobFirst (self):
     """ Description
+    Método que simula o algoritmo de escalonamento SJF
     :type self: Scheduler (class)
 
     :rtype: None
@@ -186,6 +189,7 @@ class Scheduler:
 
   def RoundRobin (self, quantum):
     """Description
+    Método que simula o algoritmo de escalonamento Round Robin
     :type self: Scheduler (class)
   
     :type quantum: int
@@ -250,6 +254,7 @@ class Scheduler:
 
   def Priority (self):
     """ Description
+    Método que simula o algoritmo de escalonamento de Prioridade
     :type self: Scheduler (class)
 
     :rtype: None
@@ -311,8 +316,8 @@ class Scheduler:
     Método que percorre os processos do escalonador verificando se é o processo que está em execução ou não.
     Se for o processo em execução, o "buffer" do vetor é marcado com um 'x'
     Caso contrário será marcado com o respectivo estado do processo. Símbolos que representam os estados dos processos: 
-    Processo em espera: '_',
-    Processo bloqueado: '*',
+    Processo em espera: '_'
+    Processo bloqueado: '*'
     Processo terminado: '·'
 
     :type self: Scheduler (class)

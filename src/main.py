@@ -4,11 +4,11 @@ from processo import Process
 from escalonador import Scheduler
 def readArq (filename):
   """ Description
-  Método que faz abertura e leitura dos dados contidos no arquivo com a configuração e passados para uma 
+  Função que faz abertura e leitura dos dados contidos no arquivo com a configuração dos processos e passados para uma 
   estrutura de tipo dicionário (dict) que será retornado para a execução dos métodos da classe Scheduler
   
-  :type filename: string
-  :param filename: Nome do arquivo com as configurações dos processos
+  :type filename: str
+  :param filename: Caminho de diretório do arquivo
 
   :rtype: dict
   """
