@@ -1,3 +1,4 @@
+#Dennis Felipe Urtubia e Otavio Silva Goes
 class Scheduler:
   """ Classe para o escalonador de processos."""
   def __init__ (self, processos, blockTime):  
