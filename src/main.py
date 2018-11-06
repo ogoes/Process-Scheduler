@@ -48,8 +48,8 @@ blockTimeError = "src/main.py ... -b [[Tempo de Bloqueio para IO (integer)]] ...
 
 if __name__ == "__main__":
 
-  quantum = 1
-  blockTime = 1
+  quantum = 4
+  blockTime = 2
   dados = []
 
   fileVerify = False

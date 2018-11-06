@@ -1,14 +1,14 @@
-from ordenacoes import *
-
 
 
 
 class Scheduler:
+  """ Classe para o escalonador de processos """
   def __init__ (self, processos, blockTime):
     self.__blockTime = blockTime
     self.__processos = processos
     
   def initValues (self):
+    """ Método que inicialização das variáveis e processos"""
     for process in self.__processos:
       process.init()
 
@@ -20,7 +20,7 @@ class Scheduler:
     self.__tempoOcioso = 0
 
   def mostraResultados (self):
-    ordenaId(self.__processos)
+    self.__processos.sort(key = lambda x: x.getId())
     for p in self.__processos:
       p.printa()
 
@@ -104,7 +104,7 @@ class Scheduler:
         self.__clock += 1
         filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
       
-      ordenaMenorPicoCPU(filaEspera)
+      filaEspera.sort(key = lambda x: x.getPicoCPU())
 
       process = filaEspera.pop(0)
       if process.getTempoExecutado() == 0:
@@ -210,7 +210,8 @@ class Scheduler:
         filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
       
-      ordenaPrioridade(filaEspera)
+      filaEspera.sort(key = lambda x: -1 * x.getPriori())
+
       process = filaEspera.pop(0)
       if process.getTempoExecutado() == 0:
         process.setInicio(self.__clock)
