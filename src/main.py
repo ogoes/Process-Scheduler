@@ -56,7 +56,7 @@ quantumError = "src/main.py ... -q [[Quantum(integer)]] ... "
 blockTimeError = "src/main.py ... -b [[Tempo de Bloqueio para IO (integer)]] ... "
 
 if __name__ == "__main__":
-  #Caso não seja passado na linha de comando o quantum e o Block time, será padrão 4 e 2
+  #Caso não seja passado na linha de comando o quantum e o Block time, será padrão 4 e 2 respectivamente
   quantum = 4
   blockTime = 2
   dados = []
