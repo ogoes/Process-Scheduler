@@ -3,6 +3,15 @@ from sys import argv
 from processo import Process
 from escalonador import Scheduler
 def readArq (filename):
+  """ Description
+  Método que faz abertura e leitura dos dados contidos no arquivo com a configuração e passados para uma 
+  estrutura de tipo dicionário (dict) que será retornado para a execução dos métodos da classe Scheduler
+  
+  :type filename: string
+  :param filename: Nome do arquivo com as configurações dos processos
+
+  :rtype: dict
+  """
   try:
     file = open(filename) ## faz a tentativa de ler o arquivo
   except:
@@ -47,7 +56,7 @@ quantumError = "src/main.py ... -q [[Quantum(integer)]] ... "
 blockTimeError = "src/main.py ... -b [[Tempo de Bloqueio para IO (integer)]] ... "
 
 if __name__ == "__main__":
-
+  #Caso não seja passado na linha de comando o quantum e o Block time, será padrão 4 e 2
   quantum = 4
   blockTime = 2
   dados = []
@@ -99,14 +108,16 @@ if __name__ == "__main__":
   for dado in dados:
     processos.append(Process(dado))
 
+  #Printa os símbolos dos estados dos processos
   print("\n\t\t\t\tProcesso em espera: \'_\' ")
   print("\t\t\t\tProcesso em execução: \'x\'")
   print("\t\t\t\tProcesso bloqueado: \'*\'")
   print("\t\t\t\tProcesso terminado: \'·\'\n")
   if blockTime <= 0:
     blockTime = 1
+  #Instância da classe Scheduler
   sche = Scheduler(processos, blockTime)
-
+  #Chamada dos métodos dos algoritmos de escalonamento
   sche.FirstComeFirstServed()
   sche.ShortestJobFirst()
   sche.RoundRobin(quantum)

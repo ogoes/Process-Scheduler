@@ -1,14 +1,24 @@
 class Process:
   def __init__ (self, dados):
+    """ Description
+    Método construtor da classe Process
+    
+    :type self: Process (class)
+
+    :type dados: dict
+    :param dados: Estrutura contendo todas as informações coletadas na main.py do arquivo. 
+    """
     self.__id = dados['id']
     self.__tamanho = dados['tamanho']
     self.__prioridade = dados['prioridade']
     self.__tempoChegada = dados['tempoChegada']
     self.__inOut = dados['I_O']
 
-    print(dados)
     self.init()
   def init (self):
+    """Description
+    Método que incializa os atributos da classe Process
+    """
     self.__tempoExecutado = 0
     self.__tempoBloqueado = 0
     self.__tempoInicio = 0
@@ -20,8 +30,16 @@ class Process:
     self.__picoIndex = 0
     self.__string = ''
   def getEspera (self):
-    self.__tempoEspera = self.__tempoFim - self.__tempoChegada - self.__tempoExecutado - self.__tempoBloqueado
-    return self.__tempoEspera
+      """ Description
+      Método que calcula o tempo de espera de um processo fazendo a subtração do tempo do clock da última execução do processo
+      com o tempo de chegada, tempo executado e tempo bloqueado.
+      
+      :type self: Process (class)
+    
+      :rtype: int
+      """
+      self.__tempoEspera = self.__tempoFim - self.__tempoChegada - self.__tempoExecutado - self.__tempoBloqueado
+      return self.__tempoEspera
   def getBegin (self):
     return self.__tempoChegada
   def getPriori (self):
@@ -62,6 +80,16 @@ class Process:
   def setTempoEmExecucao (self):
     self.__tempoEmExecucao = 0
   def executa (self):
+    """ Description
+    Método que faz a execução em si do processo, incrementando seu tempo executado e o tempo em execução.
+    Também faz a comparação do tempo executado com o tempo do respectivo processo de entrada e saída, quando a condição é verdadeira o processo tem seu estado
+    mudado para Bloqueado.
+    Por último faz a comparação do tempo executado com seu tamanho, quando a condição é verdadeiro o processo tem seu estado mudado para Terminado.
+    
+    :type self: Process (class)
+
+    :rtype: None
+    """
     self.__tempoExecutado += 1
     self.__tempoEmExecucao += 1
 
@@ -70,7 +98,17 @@ class Process:
 
     if self.__tempoExecutado == self.__tamanho:
       self.__isFinished = True
+    return None
+
   def printa (self):
+    """ Description
+    Método que printa o id e as informações relativas dos estados dos respectivos processos.
+    
+    :type self: Process (class)
+
+    :rtype: None
+    """
     self.__string += '|'
     print("\tProcesso[%s] |%s" %(self.__id, self.__string))
+    return None
     # print(self.__dados)
