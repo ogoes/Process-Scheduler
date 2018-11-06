@@ -2,11 +2,8 @@
 
 
 class Scheduler:
-<<<<<<< HEAD
   """ Classe para o escalonador de processos """
-=======
   """udhasduashdusahdashu"""
->>>>>>> f562e9b755a80078c39dc988057a319f2dee4580
   def __init__ (self, processos, blockTime):
     self.__blockTime = blockTime
     self.__processos = processos
@@ -24,7 +21,7 @@ class Scheduler:
     self.__tempoOcioso = 0
 
   def mostraResultados (self):
-    self.__processos.sort(key = lambda x: x.getId())
+    print(self.__processos)
     for p in self.__processos:
       p.printa()
 
@@ -57,9 +54,9 @@ class Scheduler:
     while len(filaTerminado) < len(self.__processos):
       
       while len (filaEspera) == 0:
-        self.__verifica__(filaBloqueado, filaEspera)
         self.__medFilaBloqueado += len(filaBloqueado)
         self.__tempoOcioso += 1
+        self.__verifica__(filaBloqueado, filaEspera)
         self.__clock += 1
         filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
       
@@ -82,9 +79,9 @@ class Scheduler:
           filaBloqueado.append(process)
 
         self.__verifica__(filaBloqueado, filaEspera, process)
-        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
         self.__clock += 1
+        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
       if process.isFinished():
         process.setFim(self.__clock)
@@ -129,9 +126,9 @@ class Scheduler:
           filaBloqueado.append(process)
 
         self.__verifica__(filaBloqueado, filaEspera, process)
-        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
         self.__clock += 1
+        filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
       if process.isFinished():
         process.setFim(self.__clock)
@@ -187,9 +184,9 @@ class Scheduler:
 
 
           self.__verifica__(filaBloqueado, filaEspera, process)
-          filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
           self.__clock += 1
+          filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
         if process.isFinished():
           process.setFim(self.__clock)
@@ -214,7 +211,7 @@ class Scheduler:
         filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
       
-      filaEspera.sort(key = lambda x: -1 * x.getPriori())
+      filaEspera.sort(key = lambda x: x.getPriori() * -1)
 
       process = filaEspera.pop(0)
       if process.getTempoExecutado() == 0:

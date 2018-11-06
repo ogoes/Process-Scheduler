@@ -5,6 +5,8 @@ class Process:
     self.__prioridade = dados['prioridade']
     self.__tempoChegada = dados['tempoChegada']
     self.__inOut = dados['I_O']
+
+    print(dados)
     self.init()
   def init (self):
     self.__tempoExecutado = 0
