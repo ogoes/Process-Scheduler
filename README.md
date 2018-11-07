@@ -12,7 +12,7 @@ Dada um conjunto de configurações de processos, o programa escrito em Python 3
 Primeiro passo:
 
 ```sh
-$ cd pasta-do-projeto
+$ cd Process-Scheduler
 ```
 
 Segundo passo:
@@ -24,9 +24,22 @@ $ cd src
 Terceiro passo:
 
 ```sh
-$ ./main.py ./main.py -f ../test/file.txt -b  -q 
+$ -f ../test/file.txt
+    -f é seguido do diretório do caminho para o arquivo de configurações dos processos
 ```
-###### Onde -b é seguido com um valor inteiro que representa o tempo de bloqueio no qual o processo se encontra quando ocorre um evento de E/S e -q é o valor do quantum para o algoritmo RoundRobin
+```sh
+$ -b 2
+    -b é seguido com um valor inteiro que representa o tempo de bloqueio no qual o processo se encontra quando ocorre um evento de E/S
+```
+```sh
+$ -q 4
+    -q é seguido com um valor inteiro que representa o quantum para o algoritmo RoundRobin
+```
+
+```sh
+$ ./main.py -f ../test/file.txt -b 2 -q 4 
+```
+### Caso não sejam passados os valores de -b e -q será utilizado 2 e 4 respectivamente como padrão.
 
 # License
 MIT
