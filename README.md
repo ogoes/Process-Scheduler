@@ -3,7 +3,7 @@
 Projeto para a matéria de Sistemas Operacionais
 Desenvolvido por Dennis Urtubia e Otávio Goes.
 
-Dada um conjunto de configurações de processos, o programa escrito em Python 3 efetua a simulação de algoritmos de escalonamento de processos. Foi implementados os algoritmos First Come First Served, Shortest Job First, Round Robin e Priority.  
+Dada um conjunto de configurações de processos, o programa escrito em Python 3 efetua a simulação de algoritmos de escalonamento de processos. Foram implementados os algoritmos First Come First Served, Shortest Job First, Round Robin e Priority.  
 
 # Execução do programa
 
