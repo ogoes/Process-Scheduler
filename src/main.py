@@ -1,5 +1,7 @@
-#Dennis Felipe Urtubia e Otavio Silva Goes 06/11/2018
 #!/usr/bin/python3
+
+
+#Dennis Felipe Urtubia e Otavio Silva Goes 06/11/2018
 from sys import argv
 from processo import Process
 from escalonador import Scheduler

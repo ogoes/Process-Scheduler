@@ -208,10 +208,10 @@ class Scheduler:
       while len(filaTerminado) < len(self.__processos):
 
         while len(filaEspera) == 0:
-          self.__verifica__(filaBloqueado, filaEspera)
           self.__medFilaBloqueado += len(filaBloqueado)
           self.__tempoOcioso += 1
           self.__clock += 1
+          self.__verifica__(filaBloqueado, filaEspera)
           filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
 
@@ -240,9 +240,9 @@ class Scheduler:
           
 
 
-          self.__verifica__(filaBloqueado, filaEspera, process)
 
           self.__clock += 1
+          self.__verifica__(filaBloqueado, filaEspera, process)
           filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
 
         if process.isFinished():
