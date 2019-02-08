@@ -108,7 +108,7 @@ class Process:
 
     :rtype: None
     """
-    self.__string += '|'
+    # self.__string += '|'
     print("\tProcesso[%s] |%s" %(self.__id, self.__string))
     return None
     # print(self.__dados)

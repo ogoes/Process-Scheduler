@@ -122,6 +122,6 @@ if __name__ == "__main__":
   sche = Scheduler(processos, blockTime)
   #Chamada dos métodos dos algoritmos de escalonamento
   sche.FirstComeFirstServed()
-  sche.ShortestJobFirst()
-  sche.RoundRobin(quantum)
-  sche.Priority()
+  # sche.ShortestJobFirst()
+  # sche.RoundRobin(quantum)
+  # sche.Priority()

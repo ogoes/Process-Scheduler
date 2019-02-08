@@ -1,4 +1,6 @@
 #Dennis Felipe Urtubia e Otavio Silva Goes
+import view
+from time import sleep
 class Scheduler:
   """ Classe para o escalonador de processos."""
   def __init__ (self, processos, blockTime):  
@@ -14,6 +16,8 @@ class Scheduler:
 
     :rtype: None
     """
+    
+
     self.__blockTime = blockTime
     self.__processos = processos
     return None
@@ -23,6 +27,7 @@ class Scheduler:
     for process in self.__processos:
       process.init()
 
+    self.__view = view.Viewer(self.__processos)
     ## variaveis que geram algumas estatísticas de cada algoritmo
     self.__maxFilaEspera = 0
     self.__maxFilaBloqueado = 0
@@ -79,6 +84,9 @@ class Scheduler:
         self.__verifica__(filaBloqueado, filaEspera) ## mostra os simbolos correspondentes para cada processo, caso um processo saia de bloquado, vai para a fila de espera
         self.__clock += 1
         filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock] ## coleta os processos que chegaram na CPU no mesmo tempo de clock
+        self.__view.show(filaEspera, filaBloqueado, filaTerminado)
+        sleep(0.5)
+
       
       process = filaEspera.pop(0) ## o primeiro da fila (chegou primeiro) é o que executará
       if process.getTempoExecutado() == 0:
@@ -110,6 +118,9 @@ class Scheduler:
         self.__clock += 1 ## veriavel de tempo
         ## pega os processos que chegaram a CPU naquele tempo
         filaEspera += [process for process in self.__processos if process.getBegin() == self.__clock]
+        
+        self.__view.show(filaEspera, filaBloqueado, filaTerminado)
+        sleep(0.5)
 
       if process.isFinished():
         ## define o tempo que o processo terminou a sua execução
@@ -117,7 +128,7 @@ class Scheduler:
         filaTerminado.append(process) ## poe na fila de processos terminados
 
     print("First Come, First Served --> FCFS\n")
-    self.mostraResultados() ## informa as estatísticas deste algoritmo
+    # self.mostraResultados() ## informa as estatísticas deste algoritmo
     return None
 
 
